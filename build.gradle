@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.0.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'dev.parthokr'
+version = '0.0.1-SNAPSHOT'
+description = 'sse-server'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'com.nimbusds:nimbus-jose-jwt:10.5'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation("io.netty:netty-resolver-dns-native-macos:4.1.125.Final:osx-x86_64")
+    implementation("io.netty:netty-resolver-dns-native-macos:4.1.125.Final:osx-aarch_64")
+    implementation 'io.nats:jnats:2.24.1'
+
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

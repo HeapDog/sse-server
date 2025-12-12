@@ -1,0 +1,26 @@
+services:
+  sse-dev:
+    container_name: sse-dev
+    image: sse-dev-latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      JAVA_OPTS: ${JAVA_OPTS:-}
+      SERVER_PORT: ${SERVER_PORT:-8081}
+
+    ports:
+      - "${SERVER_PORT:-9091}:${SERVER_PORT:-9091}"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:${SERVER_PORT:-9090}/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - heapdog-network-dev
+
+networks:
+  heapdog-network-dev:
+    external: true
